@@ -1,65 +1,76 @@
+import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-
+import Link from 'next/link'
+import styles from '../styles/Home.module.scss'
+const detectSection = function(options) {
+  const containerRef = useRef(null)
+  const [ isVisible, setIsVisible ] = useState(false)
+  const [ mounted, setMounted ] = useState(false)
+  const callbackFunction = entries => {
+    const [ entry ] = entries
+    setIsVisible(entry.isIntersecting)
+  }
+  useEffect(() => {
+    setMounted(true)
+    const observer = new IntersectionObserver(callbackFunction, options)
+    if (containerRef.current) observer.observe(containerRef.current)
+    return () => {
+      if (containerRef.current) observer.unobserve(containerRef.current)
+    }
+  }, [containerRef, options]);
+  return [containerRef, options]
+}
 export default function Home() {
+  const [containerRef, isVisible] = detectSection({
+    root: null,
+    threshold: 0
+  })
+  const scrollToNextSection = (e) => {
+    window.scrollTo({
+      top: (window.scrollY + window.innerHeight),
+      behavior: 'smooth',
+    })
+  }
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <div className={`${styles['header-container']} ${styles['loaded_container']}`}>
+      <div className={styles.header_content}>
+        <div className={styles.header_content_wrapper}>
+          <h1 className="sp-h1 sp-text-left">WELCOME TO MY PROFILE<br/></h1>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+        {/* <p className={`sp-link ${styles['next-section-button']}`} onClick={scrollToNextSection}>This way!</p> */}
+      </div>
+      <div className={`${styles['container']}`} ref={containerRef} id="home-address-section">
+        <div className={`${styles['sp-container']}`} >
+          <h2 className="sp-h2 sp-text-center">Let me guide you</h2>
+          <p className="sp-content sp-text-center">This website was generated using static site rendering with NextJS, here you will find separated by sections all the information you need about my skills and experience</p>
+          <div className={`${styles['recomendation-box-wrapper']}`}>
+            <Link href="/about-me">
+            <a className={`${styles['recomendation-box']}`}>
+              <div className={`${styles['recommendation-box-content']}`}>
+                <h6 className="sp-h6">About me</h6>
+                <p className="sp-content">Find out about my personal information</p>
+              </div>
+            </a>
+            </Link>
+            <Link href="/experience">
+            <a className={`${styles['recomendation-box']}`}>
+              <div className={`${styles['recommendation-box-content']}`}>
+                <h6 className="sp-h6">Experience</h6>
+                <p className="sp-content">See what is my experience and projects</p>
+              </div>
+            </a>
+            </Link>
+            <Link href="/contact-me">
+            <a className={`${styles['recomendation-box']}`}>
+              <div className={`${styles['recommendation-box-content']}`}>
+                <h6 className="sp-h6">Contact me</h6>
+                <p className="sp-content">Find about which way suits you the best for contacting me</p>
+              </div>
+            </a>
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,0 +1,228 @@
+@import 
+'./mixins',
+'./colors',
+'./container';
+.header-container {
+  width: 100%;
+  padding: 0;
+  @include displayGrid;
+  .header_content {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    color: $primary-light;
+    background-color: $primary-dark;
+    @include displayFlex;
+    @include justify-content(center);
+    @include align-items(center);
+    .header_content_wrapper {
+      --border-width: 3px;
+      max-width: 250px;
+      margin: auto;
+      position: relative;
+      bottom: 20px;
+      border-radius: var(--border-width);
+      z-index: 1;
+      h1 {
+        color: $primary-light;
+        font-weight: 300;
+        margin: 0;
+        padding: 30px;
+        background-color: $primary-dark;
+        border-radius: var(--border-width);
+      }
+      &::after {
+        position: absolute;
+        content: "";
+        top: calc(-1 * var(--border-width));
+        left: calc(-1 * var(--border-width));
+        z-index: -1;
+        width: calc(100% + var(--border-width) * 2);
+        height: calc(100% + var(--border-width) * 2);
+        background: linear-gradient(
+          60deg,
+          hsl(224, 85%, 66%),
+          hsl(269, 85%, 66%),
+          hsl(314, 85%, 66%),
+          hsl(359, 85%, 66%),
+          hsl(44, 85%, 66%),
+          hsl(89, 85%, 66%),
+          hsl(134, 85%, 66%),
+          hsl(179, 85%, 66%)
+        );
+        background-size: 300% 300%;
+        background-position: 0 50%;
+        border-radius: calc(2 * var(--border-width));
+        animation: moveGradient 4s alternate infinite;
+      }
+    }
+    .next-section-button {
+      width: fit-content;
+      display: block;
+      position: absolute;
+      bottom: -4em;
+      font-weight: 400;
+      opacity: 0;
+      transition-duration: 0.8s;
+    }
+  }
+  .home_content {
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+}
+.loaded_container {
+  .header_content {
+    .next-section-button {
+      opacity: 1;
+      bottom: 4em;
+    }
+  }
+}
+@keyframes moveGradient {
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.container {
+  min-height: 100vh;
+  background-color: $secondary-light;
+  .sp-container {
+
+    & > h2 {
+      margin-top: 80px;
+      margin-bottom: 35px;
+    }
+    & > p {
+      margin: auto;
+      max-width: 500px;
+      margin-bottom: 45px;
+    }
+    .recomendation-box-wrapper {
+      width: 100%;
+      @include displayFlex;
+      @include justify-content(space-around);
+      .recomendation-box {
+        width: calc(100% / 3);
+        min-width: 200px;
+        max-width: 340px;
+        margin: 0 10px 20px;
+        padding: 20px;
+        border-radius: 4px;
+        position: relative;
+        background: none;
+        border: none;
+        color: $secondary-dark;
+        cursor: pointer;
+        overflow: hidden;
+        background: $primary-dark;
+        &:first-of-type {
+          margin-left: 0;
+        }
+        &:last-of-type {
+          margin-right: 0;
+        }
+        &::before, &::after {
+          content:"";
+          width: 0;
+          height: 2px;
+          position: absolute;
+          transition: all 0.2s linear;
+          
+          background: linear-gradient(
+            60deg,
+            hsl(224, 85%, 66%),
+            hsl(269, 85%, 66%),
+            hsl(314, 85%, 66%),
+            hsl(359, 85%, 66%),
+            hsl(44, 85%, 66%),
+            hsl(89, 85%, 66%),
+            hsl(134, 85%, 66%),
+            hsl(179, 85%, 66%)
+          );
+          transition-delay: 0s;
+        }
+        &::before {
+          right: 0;
+          top: 0;
+        }
+        &::after {
+          left: 0;
+          bottom: 0;
+        }
+        .recommendation-box-content {
+          display: block;
+          &::before, &::after {
+            content:"";
+            width:2px;
+            height:0;
+            position: absolute;
+            transition: all 0.2s linear;
+            
+          background: linear-gradient(
+            60deg,
+            hsl(224, 85%, 66%),
+            hsl(269, 85%, 66%),
+            hsl(314, 85%, 66%),
+            hsl(359, 85%, 66%),
+            hsl(44, 85%, 66%),
+            hsl(89, 85%, 66%),
+            hsl(134, 85%, 66%),
+            hsl(179, 85%, 66%)
+          );
+            transition-delay: 0.2s;
+          }
+          h6, p {
+            font-weight: 400;
+            color: $secondary-light;
+          }
+          &::before {
+            left: 0;
+            top: 0;
+          }
+          &::after {
+            right: 0;
+            bottom: 0;
+          }
+          h6 {
+            margin: 0;
+          }
+        }
+        &:hover {
+          .recommendation-box-content {
+            &::before, &::after {
+              height: 100%;
+              transition-delay: 0s;
+            }
+          }
+          &::before, &::after {
+            width: 100%;
+            transition-delay: 0.2s;
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 1024px) {
+    .sp-container {
+      .recomendation-box-wrapper {
+        flex-wrap: wrap;
+      }
+    }
+  }
+  @media (max-width: 480px) {
+    .sp-container {
+      .recomendation-box-wrapper {
+        width: 100%;
+        @include displayFlex;
+        @include justify-content(space-around);
+        flex-wrap: wrap;
+        .recomendation-box {
+          width: 100%;
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

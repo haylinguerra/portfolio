@@ -1,0 +1,163 @@
+// FLEX
+@mixin displayFlex {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+ }
+
+@mixin justify-content($value: flex-start) {
+    @if $value == flex-start {
+      -webkit-box-pack: start;
+      -moz-box-pack: start;
+      -ms-flex-pack: start;
+    } @else if $value == flex-end {
+      -webkit-box-pack: end;
+      -moz-box-pack: end;
+      -ms-flex-pack: end;
+    } @else if $value == space-between {
+      -webkit-box-pack: justify;
+      -moz-box-pack: justify;
+      -ms-flex-pack: justify;
+    } @else if $value == space-around {
+      -ms-flex-pack: distribute;
+    } @else {
+      -webkit-box-pack: $value;
+      -moz-box-pack: $value;
+      -ms-flex-pack: $value;
+    }
+    -webkit-justify-content: $value;
+    justify-content: $value;
+}
+
+@mixin align-items($value: stretch) {
+    @if $value == flex-start {
+      -webkit-box-align: start;
+      -moz-box-align: start;
+      -ms-flex-align: start;
+    } @else if $value == flex-end {
+      -webkit-box-align: end;
+      -moz-box-align: end;
+      -ms-flex-align: end;
+    } @else {
+      -webkit-box-align: $value;
+      -moz-box-align: $value;
+      -ms-flex-align: $value;
+    }
+    -webkit-align-items: $value;
+    align-items: $value;
+}
+
+@mixin flex-direction($value: row) {
+    @if $value == row-reverse {
+      -webkit-box-direction: reverse;
+      -webkit-box-orient: horizontal;
+      -moz-box-direction: reverse;
+      -moz-box-orient: horizontal;
+    } @else if $value == column {
+      -webkit-box-direction: normal;
+      -webkit-box-orient: vertical;
+      -moz-box-direction: normal;
+      -moz-box-orient: vertical;
+    } @else if $value == column-reverse {
+      -webkit-box-direction: reverse;
+      -webkit-box-orient: vertical;
+      -moz-box-direction: reverse;
+      -moz-box-orient: vertical;
+    } @else {
+      -webkit-box-direction: normal;
+      -webkit-box-orient: horizontal;
+      -moz-box-direction: normal;
+      -moz-box-orient: horizontal;
+    }
+    -webkit-flex-direction: $value;
+    -ms-flex-direction: $value;
+    flex-direction: $value;
+}
+
+@mixin flex-wrap($value: nowrap) {
+    // No Webkit/FF Box fallback.
+    -webkit-flex-wrap: $value;
+    @if $value == nowrap {
+      -ms-flex-wrap: none;
+    } @else {
+      -ms-flex-wrap: $value;
+    }
+    flex-wrap: $value;
+}
+
+@mixin flex-flow($values: (row nowrap)) {
+    // No Webkit/FF Box fallback.
+    -webkit-flex-flow: $values;
+    -ms-flex-flow: $values;
+    flex-flow: $values;
+}
+
+// --
+
+// GRID
+@mixin displayGrid() {
+  display: -ms-grid;
+  display: grid
+}
+
+@mixin grid-template-columns($value: 100%) {
+    -ms-grid-columns: $value;
+    grid-template-columns: $value;
+}
+
+@mixin grid-column-start($value: 100%) {
+  -ms-grid-column: $value;
+  grid-column-start: $value;
+}
+// --
+
+@mixin transition($property...) {
+	-webkit-transition: $property;
+	-moz-transition: $property;
+	-ms-transition: $property;
+	-o-transition: $property;
+	transition: $property;
+}
+@mixin transition-duration($property...) {
+	-webkit-transition-duration: $property;
+	-moz-transition-duration: $property;
+	-ms-transition-duration: $property;
+	transition-duration: $property;
+}
+@mixin transition-property($property...) {
+  -webkit-transition-property: $property;
+	-moz-transition-property: $property;
+	-ms-transition-property: $property;
+	transition-property: $property;
+}
+
+@mixin transform($property) {
+    -moz-transform: $property;
+    -o-transform: $property;
+    -ms-transform: $property;
+    -webkit-transform: $property;
+    transform: $property;
+}
+
+@mixin animation($property) {
+    -webkit-animation: $property;
+   -moz-animation: $property;
+   -o-animation: $property;
+   animation: $property;
+}
+
+@mixin box-shadow($property) {
+  -webkit-box-shadow: $property;
+ -moz-box-shadow: $property;
+ -o-box-shadow: $property;
+ box-shadow: $property;
+}
+
+// IE Support
+@mixin only-ie {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
